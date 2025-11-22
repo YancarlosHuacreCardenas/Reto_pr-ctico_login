@@ -8,7 +8,11 @@ import { ContactFormComponent } from './components/contact-form/contact-form.com
 import { ExperienceComponent } from './components/experience/experience.component';
 import { ReservasComponent } from './components/reservas/reservas.component';
 
-// Panel de administración
+// Login y Registro
+import { LoginComponent } from './pages/login/login.component';
+import { RegistroComponent } from './pages/registro/registro.component';
+
+// Panel admin
 import { AdminComponent } from './pages/admin/admin.component';
 import { ClienteListaComponent } from './pages/admin/customer-list/customer-list.component';
 import { ClienteFormComponent } from './pages/admin/customer-form/customer-form.component';
@@ -16,42 +20,37 @@ import { ProductoListaComponent } from './pages/admin/product-list/product-list.
 import { ProductoFormComponent } from './pages/admin/product-form/product-form.component';
 
 export const routes: Routes = [
-  // Página principal
-  { path: '', component: HomeComponent, pathMatch: 'full' },
 
-  // Páginas informativas
+  // Primero mostrar LOGIN
+  { path: '', redirectTo: 'login', pathMatch: 'full' },
+  { path: 'login', component: LoginComponent },
+  { path: 'registro', component: RegistroComponent },
+
+  // Páginas públicas
+  { path: 'home', component: HomeComponent },
   { path: 'about-us', component: AboutUsComponent },
   { path: 'team', component: TeamComponent },
   { path: 'contact', component: ContactFormComponent },
   { path: 'reservas', component: ReservasComponent },
   { path: 'experience', component: ExperienceComponent },
 
-  // Panel de administración
+  // Panel de administración (SIN GUARD)
   {
     path: 'admin',
     component: AdminComponent,
     children: [
-      // Clientes
       { path: 'cliente-lista', component: ClienteListaComponent },
       { path: 'cliente-form', component: ClienteFormComponent },
-      {
-        path: 'cliente-form/:id',
-        component: ClienteFormComponent
-      },
+      { path: 'cliente-form/:id', component: ClienteFormComponent },
 
-      // Productos
       { path: 'producto-lista', component: ProductoListaComponent },
       { path: 'producto-form', component: ProductoFormComponent },
-      {
-        path: 'producto-form/:id',
-        component: ProductoFormComponent
-      },
+      { path: 'producto-form/:id', component: ProductoFormComponent },
 
-      // Redirección por defecto dentro del admin
-      { path: '', redirectTo: 'cliente-lista', pathMatch: 'full' },
-    ],
+      { path: '', redirectTo: 'cliente-lista', pathMatch: 'full' }
+    ]
   },
 
-  // Página no encontrada → redirige al inicio
-  { path: '**', redirectTo: '' },
+  // Redirección por defecto
+  { path: '**', redirectTo: 'login' }
 ];
